@@ -1,4 +1,4 @@
-<div>
+<div align="center">
 <img src="assets/censgate-redact-logo-v1.png" alt="Censgate Redact" width="400">
 
 [![Rust](https://img.shields.io/badge/rust-1.88%2B-orange.svg)](https://www.rust-lang.org/)
@@ -7,6 +7,9 @@
 [![Crates.io](https://img.shields.io/crates/v/redact-core.svg)](https://crates.io/crates/redact-core)
 
 **High-performance PII detection and anonymization engine**
+
+A production-ready, Rust-based solution designed as a drop-in replacement for Microsoft Presidio.
+
 [Quick Start](#quick-start) · [Documentation](#documentation) · [Examples](#examples) · [Contributing](#contributing)
 
 </div>
@@ -14,8 +17,6 @@
 ---
 
 ## Features
-
-A production-ready, Rust-based solution designed as a drop-in replacement for Microsoft Presidio.
 
 - **High Performance** — 10-100x faster than Python-based solutions with sub-millisecond inference
 - **Memory Safe** — Rust's borrow checker eliminates entire classes of security vulnerabilities
