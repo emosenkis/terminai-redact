@@ -1,0 +1,7 @@
+# Global code owners
+* @censgate/maintainers
+
+# Specific areas
+/pkg/ @censgate/maintainers
+/cmd/ @censgate/maintainers
+/.github/ @censgate/maintainers
