@@ -133,6 +133,8 @@ docker build -f Dockerfile.ner -t ghcr.io/censgate/redact:full .
 docker run -p 8080:8080 ghcr.io/censgate/redact:full
 ```
 
+The full image uses a pre-built [NER base layer](https://github.com/censgate/redact/pkgs/container/redact-ner-base) (`NER_BASE`, default `ghcr.io/censgate/redact-ner-base:v2`). Override with `--build-arg NER_BASE=...` only if you publish a different tag.
+
 The full image bakes in a pre-exported NER model (`dslim/bert-base-NER`) and sets `NER_MODEL_PATH=/app/model/model.onnx`, so NER is enabled at startup. To enable NER with the default image, mount a directory containing `model.onnx` and `tokenizer.json` and set:
 
 ```bash
@@ -161,8 +163,8 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-redact-core = "0.1"
-redact-ner = "0.1"  # Optional: for ML-based NER
+redact-core = "0.8.2"
+redact-ner = "0.8.2"  # Optional: for ML-based NER
 ```
 
 ### Basic Pattern Detection
@@ -423,22 +425,22 @@ All models must be trained on CoNLL-2003 or similar NER datasets with BIO taggin
 
 ## Performance
 
-### Benchmark Results (2026-01-31)
+### Benchmark Results (2026-04-18)
 
-Measured using [oha](https://github.com/hatoo/oha) with both services running in Docker containers.
+Measured using [oha](https://github.com/hatoo/oha) with both services running in Docker containers. See [docs/benchmarks/results-20260418-175909.md](docs/benchmarks/results-20260418-175909.md).
 
 | Metric | Redact (Rust) | Presidio (Python) | Speedup |
 |--------|---------------|-------------------|---------|
-| p50 Latency | 0.20 ms | 6.96 ms | **34x** |
-| p99 Latency | 0.96 ms | 22.50 ms | **23x** |
-| Throughput | 16,223 req/s | 171 req/s | **95x** |
+| p50 Latency | 0.196 ms | 6.25 ms | **32x** |
+| p99 Latency | 1.90 ms | 21.68 ms | **11x** |
+| Throughput | 19,416 req/s | 170 req/s | **114x** |
 
 Test payload: `Contact john.doe@example.com or call (555) 123-4567. SSN: 123-45-6789.`
 
 ### Run Benchmarks
 
 ```bash
-# REST API comparison vs Presidio (requires Docker + oha)
+# REST API comparison vs Presidio (requires Docker; oha on PATH or auto-downloaded)
 ./scripts/benchmark-comparison.sh
 
 # Criterion micro-benchmarks (Redact internals)
@@ -497,7 +499,7 @@ See [TEST_COVERAGE.md](/censgate/redact/blob/main/TEST_COVERAGE.md) for detailed
 
 ### Pre-1.0.0
 
-#### v0.6.0 (Current)
+#### v0.8.2 (Current)
 
 - [x] Complete Rust rewrite (replacing Go v0.1.0-v0.4.1)
 - [x] 36 pattern-based entity types with checksum validation
