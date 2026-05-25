@@ -50,8 +50,8 @@ Default Docker image remains floating tag `ghcr.io/censgate/redact:full` (tracks
 
 ## Action items
 
-- [ ] Confirm CI green on openclaw-redact PR #33
-- [ ] Merge when checks pass (closes Dependabot alert #47)
+- [x] CI green on openclaw-redact [PR #33](https://github.com/censgate/openclaw-redact/pull/33) (Node 22 + 24, 2026-05-25)
+- [ ] Merge PR #33 when ready (closes Dependabot alert #47)
 
 ## Exceptions
 
