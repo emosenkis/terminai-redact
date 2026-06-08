@@ -53,7 +53,7 @@ Dependency chain:
 | Action | Status |
 |---|---|
 | Fix PR [#2](https://github.com/censgate/openclaw-redact-benchmark/pull/2) | **Open** — bump vitest to ^4.1.8, vitest v4 config migration |
-| CI on PR | Pending |
+| CI on PR | All checks green (verify + verify-openclaw-e2e) |
 
 ### GHSA-jxxr-4gwj-5jf2 — `brace-expansion` (censgate/openclaw-redact-benchmark)
 
@@ -74,8 +74,8 @@ Moderate-severity transitive devDependency via `@typescript-eslint/typescript-es
 
 | Alert | Risk | Reachable | Fix PR | CI | Status |
 |---|---|---|---|---|---|
-| CVE-2026-47429 (`vitest`) | Critical (CVSS 9.8) | No (dev-only; UI not used) | [#2](https://github.com/censgate/openclaw-redact-benchmark/pull/2) open | Pending | **In progress** |
-| GHSA-jxxr-4gwj-5jf2 (`brace-expansion`) | Moderate | No (dev transitive) | [#2](https://github.com/censgate/openclaw-redact-benchmark/pull/2) open | Pending | **In progress** |
+| CVE-2026-47429 (`vitest`) | Critical (CVSS 9.8) | No (dev-only; UI not used) | [#2](https://github.com/censgate/openclaw-redact-benchmark/pull/2) open | Green | **Ready to merge** |
+| GHSA-jxxr-4gwj-5jf2 (`brace-expansion`) | Moderate | No (dev transitive) | [#2](https://github.com/censgate/openclaw-redact-benchmark/pull/2) open | Green | **Ready to merge** |
 
 **Open Dependabot alerts:** 0 across all Censgate repos with Dependabot enabled.
 
