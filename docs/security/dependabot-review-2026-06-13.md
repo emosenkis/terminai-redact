@@ -82,6 +82,7 @@ High-severity transitive devDependency via `tsx` (benchmark scripts) and `vite` 
 | Action | Status |
 |---|---|
 | Fix PR [#3](https://github.com/censgate/openclaw-redact-benchmark/pull/3) | **Open** — bump `tsx` to ^4.22.4 (esbuild ~0.28.x), based on PR #2 branch |
+| CI on PR | All checks green (verify + verify-openclaw-e2e) |
 | Local verification | `npm audit` clean; typecheck + lint pass |
 
 ### CVE-2026-45149 — `brace-expansion` (censgate/openclaw-redact-benchmark)
