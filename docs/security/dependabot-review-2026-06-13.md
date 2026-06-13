@@ -120,7 +120,7 @@ Informational only — not a vulnerability. Transitive via `tokenizers` / `ort` 
 | Alert | Risk | Reachable | Fix PR | CI | Status |
 |---|---|---|---|---|---|
 | CVE-2026-47429 (`vitest`) | Critical (CVSS 9.8) | No (dev-only; UI not used) | [#2](https://github.com/censgate/openclaw-redact-benchmark/pull/2) open | Green | **Ready to merge** (branch protection) |
-| GHSA-gv7w-rqvm-qjhr (`esbuild`/`tsx`) | High (CVSS 8.1) | No (dev install path) | [#3](https://github.com/censgate/openclaw-redact-benchmark/pull/3) open | Pending | **Awaiting CI** |
+| GHSA-gv7w-rqvm-qjhr (`esbuild`/`tsx`) | High (CVSS 8.1) | No (dev install path) | [#3](https://github.com/censgate/openclaw-redact-benchmark/pull/3) open | Green | **Ready to merge** (merge #2 first or rebase) |
 | CVE-2026-45149 (`brace-expansion`) | Medium (CVSS 6.5) | No (dev transitive) | [#2](https://github.com/censgate/openclaw-redact-benchmark/pull/2) open | Green | **Ready to merge** (branch protection) |
 
 **Open Dependabot alerts:** 0 across all Censgate repos with Dependabot security alerts enabled.
