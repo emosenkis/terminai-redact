@@ -57,7 +57,7 @@ Dependency chain:
 |---|---|
 | Fix PR [#37](https://github.com/censgate/openclaw-redact/pull/37) | **Open** — bump override to `^7.6.3` |
 | Local `npm test` | 25/25 passed |
-| CI | Pending |
+| CI | Green (build Node 22 + 24) |
 
 ### GHSA-96hv-2xvq-fx4p — `ws` (censgate/openclaw-redact)
 
@@ -178,9 +178,9 @@ Informational only — not a vulnerability. Transitive via `tokenizers` / `ort` 
 
 | Alert | Risk | Reachable | Fix PR | CI | Status |
 |---|---|---|---|---|---|
-| GHSA-f38q-mgvj-vph7 / GHSA-wcpc-wj8m-hjx6 (`protobufjs`) | High (CVSS 7.5) | No (dev transitive) | [#37](https://github.com/censgate/openclaw-redact/pull/37) open | Pending | **Ready for CI** |
-| GHSA-96hv-2xvq-fx4p (`ws`) | High (CVSS 7.5) | No (dev transitive) | [#37](https://github.com/censgate/openclaw-redact/pull/37) open | Pending | **Ready for CI** |
-| GHSA-vmf3-w455-68vh (`tar`) | Moderate (CVSS 6.1) | No (dev transitive) | [#37](https://github.com/censgate/openclaw-redact/pull/37) open | Pending | **Ready for CI** |
+| GHSA-f38q-mgvj-vph7 / GHSA-wcpc-wj8m-hjx6 (`protobufjs`) | High (CVSS 7.5) | No (dev transitive) | [#37](https://github.com/censgate/openclaw-redact/pull/37) open | Green | **Ready to merge** |
+| GHSA-96hv-2xvq-fx4p (`ws`) | High (CVSS 7.5) | No (dev transitive) | [#37](https://github.com/censgate/openclaw-redact/pull/37) open | Green | **Ready to merge** |
+| GHSA-vmf3-w455-68vh (`tar`) | Moderate (CVSS 6.1) | No (dev transitive) | [#37](https://github.com/censgate/openclaw-redact/pull/37) open | Green | **Ready to merge** |
 | CVE-2026-47429 (`vitest`) | Critical (CVSS 9.8) | No (dev-only; UI not used) | [#2](https://github.com/censgate/openclaw-redact-benchmark/pull/2) open | Green | **Ready to merge** |
 | GHSA-gv7w-rqvm-qjhr (`esbuild`/`tsx`) | High (CVSS 8.1) | No (dev install path) | [#3](https://github.com/censgate/openclaw-redact-benchmark/pull/3) open | Green | **Ready to merge** (merge #2 first) |
 | GHSA-h67p-54hq-rp68 (`js-yaml`) | Moderate (CVSS 5.3) | No (dev transitive) | — | — | **Accepted risk** (dev-only, EPSS < 0.1) |
@@ -191,5 +191,5 @@ Informational only — not a vulnerability. Transitive via `tokenizers` / `ort` 
 
 **Action required:**
 
-1. Merge [openclaw-redact#37](https://github.com/censgate/openclaw-redact/pull/37) after CI is green.
+1. Merge [openclaw-redact#37](https://github.com/censgate/openclaw-redact/pull/37) (CI green).
 2. Merge [openclaw-redact-benchmark#2](https://github.com/censgate/openclaw-redact-benchmark/pull/2), then [#3](https://github.com/censgate/openclaw-redact-benchmark/pull/3).
