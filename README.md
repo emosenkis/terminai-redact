@@ -21,7 +21,7 @@ A production-ready, Rust-based solution designed as a drop-in replacement for Mi
 - **High Performance** — 10-100x faster than Python-based solutions with sub-millisecond inference
 - **Memory Safe** — Rust's borrow checker eliminates entire classes of security vulnerabilities
 - **Production Ready** — 36 pattern-based entity types with validation, plus transformer-based NER
-- **Multi-Platform** — Native server and CLI support
+- **Multi-Platform** — Native server, CLI, and WebAssembly (pattern-only) support
 - **ML-Powered** — Full ONNX Runtime integration for transformer models (BERT, RoBERTa, DistilBERT)
 - **Lightweight** — ~20-50MB memory footprint vs ~300MB for Presidio
 - **Extensible** — Plugin architecture for custom recognizers and anonymization strategies
@@ -74,11 +74,37 @@ redact anonymize --strategy hash "Card: 4532-1234-5678-9010"
 # Analyze a file
 redact analyze -i sensitive_data.txt
 
+# Analyze multiple files at once (`-i` accepts several paths)
+redact analyze -i logs/a.txt logs/b.txt logs/c.txt
+
 # Pipe from stdin
 cat document.txt | redact anonymize --strategy mask
 
 # Output as JSON
 redact analyze --format json "test@example.com" > results.json
+
+# Multiple files as a single JSON array (one document, machine-parseable)
+redact analyze --format json -i logs/a.txt logs/b.txt > results.json
+```
+
+When multiple files are analyzed, text output prints a `--- <path> ---` header before
+each file's results, and JSON output is emitted as a single array of
+`{ "file": "<path>", "result": <AnalysisResult> }` objects. Single-file and inline-text
+output remain unchanged for backward compatibility.
+
+### CI Gates and Pre-commit Hooks
+
+Use `--fail-on-detect` to exit with code 1 when PII is detected, so `redact analyze`
+can gate CI pipelines or git pre-commit hooks. Output is printed normally before the
+non-zero exit. The flag is opt-in — without it, `analyze` exits 0 on success regardless
+of detections, preserving existing behavior.
+
+```bash
+# Fail the build if a file contains PII
+redact analyze --fail-on-detect -i secrets-check.txt
+
+# Pre-commit hook example
+redact analyze --fail-on-detect -i "$(git diff --cached --name-only)" || exit 1
 ```
 
 ### Filter by Entity Type
@@ -88,6 +114,53 @@ redact analyze --entities EmailAddress --entities UsSsn \
   "Email: test@example.com, SSN: 123-45-6789, Phone: (555) 123-4567"
 # Only detects EmailAddress and UsSsn, ignores PhoneNumber
 ```
+
+## WebAssembly
+
+The `redact-wasm` crate compiles `redact-core`'s **pattern engine** to
+`wasm32-unknown-unknown` for use in browsers and edge runtimes such as
+Cloudflare Workers. It exposes a `RedactEngine` with `analyze`, `anonymize`, and
+`supported_entities` via `wasm-bindgen`.
+
+```bash
+# Build (requires wasm-pack and the wasm32-unknown-unknown target)
+rustup target add wasm32-unknown-unknown
+cargo install wasm-pack
+wasm-pack build --target web crates/redact-wasm
+```
+
+### What is available
+
+All **36 pattern-based entity types** (email, phone, SSN, credit cards, IBAN, UK
+identifiers, crypto addresses, hashes, GUIDs, URLs, IP, dates, ...) and the
+replace/mask/hash anonymization strategies. Typical bundle size is ~1-3 MB.
+
+### What is NOT available in WASM
+
+Contextual named-entity recognition — `PERSON`, `ORGANIZATION`, `LOCATION` in
+prose like "John met Acme in Boston" — requires an ONNX transformer model
+(~250-420 MB) plus the ONNX Runtime. That stack does not fit Cloudflare Workers
+(128 MB isolate, 64 MiB bundle, ~50 ms CPU) and is impractical to inline in a
+browser module. For name-based detection, use a **hybrid architecture**:
+
+```mermaid
+sequenceDiagram
+  participant Client
+  participant Worker as CF Worker (pattern WASM)
+  participant API as redact-api :full or Workers AI
+
+  Client->>Worker: text
+  Worker->>Worker: pattern PII scan locally
+  alt names / orgs / locations needed
+    Worker->>API: NER subset request
+    API-->>Worker: PERSON / ORG / LOC spans
+  end
+  Worker-->>Client: merged redaction result
+```
+
+This tiered approach keeps fast structured-PII detection at the edge and
+delegates contextual NER to a service boundary (`redact-api` `:full` image or
+Cloudflare Workers AI). Inline WASM NER remains a deferred roadmap item.
 
 ## Installation
 
@@ -544,9 +617,12 @@ See [TEST_COVERAGE.md](/censgate/redact/blob/main/TEST_COVERAGE.md) for detailed
 #### v0.9.0 (Planned)
 
 - [x] Publish crates to crates.io
-- [ ] WebAssembly (WASM) browser support
+- [x] WebAssembly bindings — pattern engine (browser + Cloudflare Workers)
 - [ ] Streaming API for large texts
 - [ ] Enhanced documentation
+- [ ] WebAssembly + inline NER — deferred; ONNX model + runtime do not fit
+      Cloudflare Workers limits. Use the hybrid architecture in the
+      [WebAssembly](#webassembly) section for name-based detection.
 
 ## Contributing
 

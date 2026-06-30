@@ -55,6 +55,29 @@ jobs:
       - name: Run doc tests
         run: cargo test --workspace --doc
 
+  wasm:
+    name: WASM (pattern-only)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+
+      # Phase 1 WASM scope: the pattern engine from redact-core compiles to
+      # wasm32-unknown-unknown. NER (redact-ner / ONNX) is intentionally not
+      # part of this build — see the README "WebAssembly" section.
+      - name: Check redact-wasm compiles for wasm32
+        run: cargo check --target wasm32-unknown-unknown -p redact-wasm
+
   coverage:
     name: Code Coverage
     runs-on: ubuntu-latest
