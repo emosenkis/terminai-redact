@@ -3,7 +3,8 @@
 //! Run with: cargo bench --package redact-core
 //! Run specific benchmark: cargo bench --package redact-core --bench analyzer_benchmarks
 
-use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
+use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
+use std::hint::black_box;
 use redact_core::{
     anonymizers::{AnonymizationStrategy, AnonymizerConfig},
     AnalyzerEngine, EntityType,
