@@ -4,11 +4,11 @@
 //! Run specific benchmark: cargo bench --package redact-core --bench analyzer_benchmarks
 
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
-use std::hint::black_box;
 use redact_core::{
     anonymizers::{AnonymizationStrategy, AnonymizerConfig},
     AnalyzerEngine, EntityType,
 };
+use std::hint::black_box;
 
 /// Benchmark simple email detection
 fn bench_analyze_email(c: &mut Criterion) {

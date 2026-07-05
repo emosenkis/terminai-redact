@@ -39,7 +39,7 @@ enum Commands {
         text: Option<String>,
 
         /// Read from file(s) instead. Accepts multiple paths: `-i f1 f2` or repeated `-i f1 -i f2`.
-        #[arg(short = 'i', long, num_args = 1..)]
+        #[arg(short = 'i', long = "file", alias = "files", num_args = 1..)]
         files: Vec<PathBuf>,
 
         /// Entity types to detect (all if not specified)
@@ -61,7 +61,7 @@ enum Commands {
         text: Option<String>,
 
         /// Read from file(s) instead. Accepts multiple paths: `-i f1 f2` or repeated `-i f1 -i f2`.
-        #[arg(short = 'i', long, num_args = 1..)]
+        #[arg(short = 'i', long = "file", alias = "files", num_args = 1..)]
         files: Vec<PathBuf>,
 
         /// Anonymization strategy

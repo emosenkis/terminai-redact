@@ -103,8 +103,8 @@ of detections, preserving existing behavior.
 # Fail the build if a file contains PII
 redact analyze --fail-on-detect -i secrets-check.txt
 
-# Pre-commit hook example
-redact analyze --fail-on-detect -i "$(git diff --cached --name-only)" || exit 1
+# Pre-commit hook example (one path per -i argument)
+git diff --cached --name-only -z --diff-filter=ACMRT | xargs -0 redact analyze --fail-on-detect -i || exit 1
 ```
 
 ### Filter by Entity Type

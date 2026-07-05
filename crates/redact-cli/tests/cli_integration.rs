@@ -553,6 +553,21 @@ fn test_analyze_multiple_files_all_clean_exits_zero() {
 }
 
 #[test]
+fn test_analyze_long_file_flag() {
+    let mut file = NamedTempFile::new().unwrap();
+    writeln!(file, "Email: alice@example.com").unwrap();
+    file.flush().unwrap();
+
+    cli()
+        .arg("analyze")
+        .arg("--file")
+        .arg(file.path())
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("EmailAddress"));
+}
+
+#[test]
 fn test_analyze_multiple_files_repeated_flag() {
     // Backward-compatible repeated -i flags also work.
     let mut file_a = NamedTempFile::new().unwrap();
