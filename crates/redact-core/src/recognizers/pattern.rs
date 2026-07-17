@@ -714,6 +714,26 @@ mod tests {
   }
 
   #[test]
+  fn test_gitleaks_private_key_is_anonymized() {
+    use crate::{AnalyzerEngine, AnonymizationStrategy, AnonymizerConfig};
+
+    let text = "-----BEGIN OPENSSH PRIVATE KEY-----\nABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/ABCDEFGHIJKLMNOPQRSTUVWXYZ\n-----END OPENSSH PRIVATE KEY-----";
+    let result = AnalyzerEngine::new()
+      .anonymize(
+        text,
+        None,
+        &AnonymizerConfig {
+          strategy: AnonymizationStrategy::Replace,
+          ..Default::default()
+        },
+      )
+      .unwrap();
+
+    assert!(!result.text.contains("OPENSSH PRIVATE KEY"));
+    assert!(result.text.contains("[GITLEAKS_PRIVATE_KEY]"));
+  }
+
+  #[test]
   fn test_min_score_filtering() {
     let recognizer = PatternRecognizer::new().with_min_score(0.9);
     let text = "Date: 2024-01-15"; // Date has score 0.5
