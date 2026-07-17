@@ -44,11 +44,15 @@ pub mod recognizers;
 pub mod types;
 
 // Re-export commonly used types
-pub use anonymizers::{AnonymizationStrategy, AnonymizerConfig, AnonymizerRegistry};
+pub use anonymizers::{
+  AnonymizationStrategy, AnonymizerConfig, AnonymizerRegistry,
+};
 pub use engine::AnalyzerEngine;
+pub use recognizers::pattern::gitleaks_entity_types;
 pub use recognizers::{Recognizer, RecognizerRegistry};
 pub use types::{
-    AnalysisMetadata, AnalysisResult, AnonymizedResult, EntityType, RecognizerResult, Token,
+  AnalysisMetadata, AnalysisResult, AnonymizedResult, EntityType,
+  RecognizerResult, Token,
 };
 
 /// Version of the redact-core library
@@ -56,10 +60,10 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+  use super::*;
 
-    #[test]
-    fn test_version() {
-        assert!(!VERSION.is_empty());
-    }
+  #[test]
+  fn test_version() {
+    assert!(!VERSION.is_empty());
+  }
 }
